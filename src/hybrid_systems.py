@@ -6,17 +6,18 @@ import src.time_series_functions as tsf
 
 def fit_sklearn_model(ts, model, test_size, val_size):
     """
-    Parameters: 
-    ts (pandas.DataFrame): time series values created by 
-                           src.time_series_functions.create_windowing
-    model (Sklearn Model): base model to predict ts
-    test_size (int): size of test set
-    val_size (int): size of validation set (if you do not use validation set, 
-                     val_size can be set as 0)
+     Parâmetros:
+    > ts (pandas.DataFrame): valores de série temporal criados por
+                            src.time_series_functions.create_window
+    > modelo (Sklearn Model): modelo base para prever ts
+    > test_size (int): tamanho do conjunto de teste
+    > val_size (int): tamanho do conjunto de validação (se você não usar o conjunto de validação,
+                      val_size pode ser definido como 0)
 
-    Returns: 
-    Sklearn Model: trained model
+     Devoluções:
+    > Modelo Sklearn: modelo treinado 
     """
+
 
     train_size = len(ts) - test_size - val_size
     y_train = ts['actual'][0:train_size]
@@ -27,13 +28,13 @@ def fit_sklearn_model(ts, model, test_size, val_size):
 
 def predict_sklearn_model(ts, model):
     """
-    Parameters: 
-    ts (pandas.DataFrame): time series values created by 
-                           src.time_series_functions.create_windowing
-    model (Sklearn Model): base model to predict ts
+    Parâmetros:
+    > ts (pandas.DataFrame): valores de série temporal criados por
+                            src.time_series_functions.create_window
+    > modelo (Sklearn Model): modelo base para prever ts
     
-    Returns: 
-    numpy array: predicted values
+     Devoluções:
+     > matriz numpy: valores previstos
     """
 
     x = ts.drop(columns=['actual'], axis=1)
@@ -42,17 +43,17 @@ def predict_sklearn_model(ts, model):
 def additive_hybrid_model(predicted, real, time_window, base_model,
                           test_size, val_size):
     """
-    Parameters: 
-    real (numpy array): real values of time series 
-    predicted (numpy array):  linear prediction of the time series
-    time_window (int): time window of error prediction model
-    base_model (Sklearn model): base model to predict the error
-    test_size (int): size of test set
-    val_size (int): size of validation set (if you do not use validation set, 
-                     val_size can be set as 0)
+   Parâmetros:
+    > real (matriz numpy): valores reais da série temporal
+    > previsto (matriz numpy): previsão linear da série temporal
+    > time_window (int): janela de tempo do modelo de previsão de erro
+    > base_model (modelo Sklearn): modelo base para prever o erro
+    > test_size (int): tamanho do conjunto de teste
+    > val_size (int): tamanho do conjunto de validação (se você não usar o conjunto de validação,
+                      val_size pode ser definido como 0)
 
-    Returns: 
-    dict: following the  src.time_series_functions.make_metrics_avaliation format
+     Devoluções:
+     > dict: seguindo o formato src.time_series_functions.make_metrics_avaliation 
     """
 
     train_size = len(predicted) - test_size
@@ -86,16 +87,16 @@ def additive_hybrid_model(predicted, real, time_window, base_model,
 
 def format_nolic_input(real, nonlinear_forecast, linear_forecast, test_size, time_window):
     """
-    Parameters: 
-    real (numpy array): real values of time sries 
-    linear_forecast (numpy array):  linear prediction of the time series
-    nonlinear_forecast (numpy array): additive hibrid system prediction
-    time_window (int): time window of error prediction model
-    test_size (int): size of test set
+    Parâmetros:
+    > real (matriz numpy): valores reais de séries temporais
+    > linear_forecast (matriz numpy): previsão linear da série temporal
+    > nonlinear_forecast (numpy array): previsão de sistema híbrido aditivo
+    > time_window (int): janela de tempo do modelo de previsão de erro
+    > test_size (int): tamanho do conjunto de teste
 
-    Returns: 
-    pandas DataFrame: format of input x output
-    sklearn preprocessing: data normalization model
+     Devoluções:
+    > pandas DataFrame: formato de entrada x saída
+    > pré-processamento sklearn: modelo de normalização de dado
     """
     train_size_represents = len(real) - test_size
     
@@ -134,18 +135,18 @@ def nolic_model(linear_forecast, real, nonlinear_forecast,time_window,
                 base_model, test_size,val_size):
 
     """
-    Parameters: 
-    real (numpy array): real values of time series 
-    linear_forecast (numpy array):  linear prediction of the time series
-    nonlinear_forecast (numpy array): additive hibrid system prediction
-    time_window (int): time window of error prediction model
-    base_model (Sklearn model): base model to combine the linear e nonlinear prediction
-    test_size (int): size of test set
-    val_size (int): size of validation set (if you do not use validation set, 
-                     val_size can be set as 0)
+    Parâmetros:
+    > real (matriz numpy): valores reais da série temporal
+    > linear_forecast (matriz numpy): previsão linear da série temporal
+    > nonlinear_forecast (numpy array): previsão de sistema híbrido aditivo
+    > time_window (int): janela de tempo do modelo de previsão de erro
+    > base_model (modelo Sklearn): modelo base para combinar a predição linear e não linear
+    > test_size (int): tamanho do conjunto de teste
+    > val_size (int): tamanho do conjunto de validação (se você não usar o conjunto de validação,
+                      val_size pode ser definido como 0)
 
-    Returns: 
-    dict: following the src.time_series_functions.make_metrics_avaliation format
+     Devoluções:
+    > dict: seguindo o formato src.time_series_functions.make_metrics_avaliation 
     """
 
     ts_formated, min_max_scaler= format_nolic_input(real, nonlinear_forecast, linear_forecast, test_size, time_window)

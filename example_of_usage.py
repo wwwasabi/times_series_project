@@ -51,5 +51,5 @@ def nonlinear_combination():
     print(results['test_metrics'])
 
 if __name__ == "__main__":
-    linear_combination()
-    #nonlinear_combination()
+    #linear_combination()
+    nonlinear_combination()
